@@ -1,0 +1,16 @@
+##############################
+# OpenCast                   #
+#          By: MrKitty_Cat   #
+##############################
+
+#  Licence: https://opensource.org/licenses/MIT
+
+
+# Console Logging
+consoleLogging: false
+
+# Prefix for messages.
+prefix: "&c&lOpenCaster:&a "
+
+
+

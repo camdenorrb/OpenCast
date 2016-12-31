@@ -1,0 +1,10 @@
+name: OpenCast
+version: Kat1.0
+author: MrKitty_Cat
+main: me.camdenorrb.opencast.OpenCast
+
+commands:
+  bc:
+    permission: OpenCast.Admin
+    description: The main command for OpenCast
+    permission-message: §cYou are missing §4<permission> §cpermission.
