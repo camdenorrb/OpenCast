@@ -18,7 +18,9 @@ class BroadcastCmd(val cmdStore: SubCmdStore) : CommandExecutor, TabCompleter {
 
         if (args.isEmpty()) return { sender.sendMessage(help); true }()
 
+
         val argsList = mutableListOf(*args)
+
         val command = cmdStore.byName(argsList.removeAt(0))?: return { sender.sendMessage(help); true }()
 
 

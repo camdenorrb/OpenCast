@@ -10,7 +10,6 @@ import me.camdenorrb.opencast.extensions.write
 import me.camdenorrb.opencast.handlers.CastHandler
 import me.camdenorrb.opencast.store.SubCmdStore
 import me.camdenorrb.opencast.wrappers.Messages
-import org.bukkit.command.PluginCommand
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 
@@ -50,19 +49,20 @@ class OpenCast : JavaPlugin() {
 
         loadHandlers()
 
-
-        val bcCmd: PluginCommand = getCommand("bc")
         val broadCastCmd: BroadcastCmd = BroadcastCmd(subCmdStore)
-
-        bcCmd.executor = broadCastCmd
-        bcCmd.tabCompleter = broadCastCmd
+        getCommand("bc").let {
+            it.executor = broadCastCmd
+            it.tabCompleter = broadCastCmd
+        }
     }
 
 
     fun loadHandlers() {
 
         val readJson = messagesFile.readJson()
+
         val messages: Messages = if (readJson.isEmpty()) Messages() else gson.fromJson(readJson, Messages::class.java)
+
 
         castHandler = CastHandler(instance!!, config.getBoolean("consoleLogging", false), config.getString("prefix", "&c&lOpenCaster:&a ").format(), messages)
 

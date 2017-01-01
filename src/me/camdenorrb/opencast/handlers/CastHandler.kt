@@ -44,6 +44,7 @@ class CastHandler(val plugin: JavaPlugin, var consoleLogging: Boolean, var prefi
 
         val delay = messages.delay * 20
 
+
         task = plugin.server.scheduler.runTaskTimerAsynchronously(plugin, {
 
             val size = messages.messageList.size
@@ -52,9 +53,12 @@ class CastHandler(val plugin: JavaPlugin, var consoleLogging: Boolean, var prefi
             if (++position >= size) position = 0
             val message = "$prefix${messages.messageList[position]}".format()
 
+
             plugin.server.onlinePlayers.forEach { it.sendMessage(message) }
             if (consoleLogging) plugin.logger.log(Level.INFO, message)
 
         }, delay, delay)
+
     }
+
 }

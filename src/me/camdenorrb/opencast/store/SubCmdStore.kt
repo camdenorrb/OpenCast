@@ -14,7 +14,7 @@ class SubCmdStore {
 
     fun disable() { commandSet.clear() }
 
-    fun register(vararg commands: SubCmd) { Collections.addAll(commandSet, *commands) }
+    fun register(vararg commands: SubCmd) { commandSet.addAll(commands) }
 
     fun byName(name: String): SubCmd? = commandSet.filter { it.name.equals(name, true) }.firstOrNull()
 
