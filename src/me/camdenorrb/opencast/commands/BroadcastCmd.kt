@@ -36,8 +36,8 @@ class BroadcastCmd(val cmdStore: SubCmdStore) : CommandExecutor, TabCompleter {
 
         val help: String = "$AQUA${BOLD}Open$RESET${BOLD}Caster$RESET\n" +
                 "   $AQUA/bc $DARK_GRAY- ${GRAY}Show Commands.\n" +
-                "   $AQUA/bc list $DARK_GRAY- ${GRAY}List currently set messages." +
-                "   $AQUA/bc announce $GREEN<Message> $DARK_GRAY- ${GRAY}Broadcasts a message to the whole server\n" +
+                "   $AQUA/bc list $DARK_GRAY- ${GRAY}List currently set messages.\n" +
+                "   $AQUA/bc announce $GREEN<Message> $DARK_GRAY- ${GRAY}Broadcasts a message to the whole server.\n" +
                 "   $AQUA/bc reload $DARK_GRAY- ${GRAY}Reload the config.\n" +
                 "   $AQUA/bc add $GREEN<Message> $DARK_GRAY- ${GRAY}Add an auto broadcast message from the list.\n" +
                 "   $AQUA/bc remove $GREEN<ID> (Each message get an ID such as 1, 2 etc..) $DARK_GRAY- ${GRAY}Remove an auto broadcast message from the list.\n" +
