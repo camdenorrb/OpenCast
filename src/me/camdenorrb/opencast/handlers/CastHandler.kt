@@ -1,5 +1,6 @@
 package me.camdenorrb.opencast.handlers
 
+import me.camdenorrb.opencast.OpenCast
 import me.camdenorrb.opencast.extensions.format
 import me.camdenorrb.opencast.wrappers.Messages
 import org.bukkit.plugin.java.JavaPlugin
@@ -10,7 +11,7 @@ import java.util.logging.Level
  * Created by camdenorrb on 12/27/16.
  */
 
-class CastHandler(val plugin: JavaPlugin, var consoleLogging: Boolean, var prefix: String, var messages: Messages) {
+class CastHandler(val plugin: JavaPlugin, var randomMessages: Boolean, var consoleLogging: Boolean, var prefix: String, var messages: Messages) {
 
     var task: BukkitTask? = null
     var isEnabled: Boolean = false
@@ -50,12 +51,18 @@ class CastHandler(val plugin: JavaPlugin, var consoleLogging: Boolean, var prefi
             val size = messages.messageList.size
             if (size == 0) return@runTaskTimerAsynchronously
 
-            if (++position >= size) position = 0
-            val message = "$prefix${messages.messageList[position]}".format()
+            if(randomMessages) {
+                var randomNumber = OpenCast.random.nextInt(size - 1)
+                while (position == randomNumber) randomNumber = OpenCast.random.nextInt(size - 1)
+                position = randomNumber
+
+            } else if (++position >= size) position = 0
 
 
-            plugin.server.onlinePlayers.forEach { it.sendMessage(message) }
-            if (consoleLogging) plugin.logger.log(Level.INFO, message)
+            "$prefix${messages.messageList[position]}".format().let {
+                if (consoleLogging) plugin.logger.log(Level.INFO, it)
+                plugin.server.onlinePlayers.forEach { player -> player.sendMessage(it) }
+            }
 
         }, delay, delay)
 

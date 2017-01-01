@@ -12,5 +12,8 @@ consoleLogging: false
 # Prefix for messages.
 prefix: "&c&lOpenCaster:&a "
 
+# Randomly pick a message
+randomMessage: false
+
 
 

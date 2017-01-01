@@ -12,6 +12,7 @@ import me.camdenorrb.opencast.store.SubCmdStore
 import me.camdenorrb.opencast.wrappers.Messages
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
+import java.util.*
 
 /**
  * Created by camdenorrb on 12/14/16.
@@ -26,11 +27,16 @@ class OpenCast : JavaPlugin() {
     val gson: Gson = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create()
 
 
-    companion object { var instance: OpenCast? = null }
+    companion object {
+
+        val random = Random()
+
+        lateinit var instance: OpenCast
+
+    }
 
 
     override fun onDisable() {
-        instance = null
 
         messagesFile.write { gson.toJson(castHandler.messages, it) }
 
@@ -45,11 +51,13 @@ class OpenCast : JavaPlugin() {
 
         saveDefaultConfig()
 
-        subCmdStore.register(AddCmd(instance!!), AnnounceCmd(instance!!), DisableCmd(instance!!), EnableCmd(instance!!), IntervalCmd(instance!!), ListCmd(instance!!), ReloadCmd(instance!!), RemoveCmd(instance!!))
+        subCmdStore.register(AddCmd(this), AnnounceCmd(this), DisableCmd(this), EnableCmd(this), IntervalCmd(this), ListCmd(this), ReloadCmd(this), RemoveCmd(this))
 
         loadHandlers()
 
+
         val broadCastCmd: BroadcastCmd = BroadcastCmd(subCmdStore)
+
         getCommand("bc").let {
             it.executor = broadCastCmd
             it.tabCompleter = broadCastCmd
@@ -64,7 +72,7 @@ class OpenCast : JavaPlugin() {
         val messages: Messages = if (readJson.isEmpty()) Messages() else gson.fromJson(readJson, Messages::class.java)
 
 
-        castHandler = CastHandler(instance!!, config.getBoolean("consoleLogging", false), config.getString("prefix", "&c&lOpenCaster:&a ").format(), messages)
+        castHandler = CastHandler(instance, config.getBoolean("randomMessage", false), config.getBoolean("consoleLogging", false), config.getString("prefix", "&c&lOpenCaster:&a ").format(), messages)
 
         castHandler.enable()
     }
