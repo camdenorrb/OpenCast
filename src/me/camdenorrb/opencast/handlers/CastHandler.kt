@@ -51,9 +51,9 @@ class CastHandler(val plugin: JavaPlugin, var randomMessages: Boolean, var conso
             val size = messages.messageList.size
             if (size == 0) return@runTaskTimerAsynchronously
 
-            if(randomMessages) {
-                var randomNumber = OpenCast.random.nextInt(size - 1)
-                while (position == randomNumber) randomNumber = OpenCast.random.nextInt(size - 1)
+            if (randomMessages) {
+                var randomNumber = OpenCast.random.nextInt(size)
+                while (position == randomNumber) randomNumber = OpenCast.random.nextInt(size)
                 position = randomNumber
 
             } else if (++position >= size) position = 0
