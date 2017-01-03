@@ -1,7 +1,7 @@
 package me.camdenorrb.opencast.handlers
 
-import me.camdenorrb.opencast.OpenCast
 import me.camdenorrb.opencast.extensions.format
+import me.camdenorrb.opencast.random
 import me.camdenorrb.opencast.wrappers.Messages
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitTask
@@ -52,8 +52,8 @@ class CastHandler(val plugin: JavaPlugin, var randomMessages: Boolean, var conso
             if (size == 0) return@runTaskTimerAsynchronously
 
             if (size > 1 && randomMessages) {
-                var randomNumber = OpenCast.random.nextInt(size)
-                while (position == randomNumber) randomNumber = OpenCast.random.nextInt(size)
+                var randomNumber = random.nextInt(size)
+                while (position == randomNumber) randomNumber = random.nextInt(size)
                 position = randomNumber
 
             } else if (++position >= size) position = 0

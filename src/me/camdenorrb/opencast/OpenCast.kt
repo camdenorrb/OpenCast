@@ -18,6 +18,8 @@ import java.util.*
  * Created by camdenorrb on 12/14/16.
  */
 
+val random = Random()
+
 class OpenCast : JavaPlugin() {
 
     lateinit var castHandler: CastHandler
@@ -27,13 +29,7 @@ class OpenCast : JavaPlugin() {
     val gson: Gson = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create()
 
 
-    companion object {
-
-        val random = Random()
-
-        lateinit var instance: OpenCast
-
-    }
+    companion object { lateinit var instance: OpenCast }
 
 
     override fun onDisable() {
