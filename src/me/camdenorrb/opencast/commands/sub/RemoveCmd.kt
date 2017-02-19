@@ -18,9 +18,9 @@ class RemoveCmd(val openCast: OpenCast) : SubCmd("remove", 1, "$RED/Bc Remove <I
         val index = try { args[0].toInt() } catch (ex: Exception) { return false }
 
         if (index < 0 || (messages.messageList.size - 1) < index) return false
-        val removed = messages.messageList.removeAt(index)
 
-        sender.sendMessage("$AQUA\"$LIGHT_PURPLE$removed$AQUA\" was removed from the list!")
+        sender.sendMessage("$AQUA\"$LIGHT_PURPLE$${messages.messageList.removeAt(index)}$AQUA\" was removed from the list!")
+
         return true
     }
 

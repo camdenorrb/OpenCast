@@ -1,8 +1,8 @@
 package me.camdenorrb.opencast.handlers
 
+import me.camdenorrb.opencast.config.MessagesConfig
 import me.camdenorrb.opencast.extensions.format
 import me.camdenorrb.opencast.random
-import me.camdenorrb.opencast.wrappers.Messages
 import org.bukkit.plugin.java.JavaPlugin
 import org.bukkit.scheduler.BukkitTask
 import java.util.logging.Level
@@ -11,7 +11,7 @@ import java.util.logging.Level
  * Created by camdenorrb on 12/27/16.
  */
 
-class CastHandler(val plugin: JavaPlugin, var randomMessages: Boolean, var consoleLogging: Boolean, var prefix: String, var messages: Messages) {
+class CastHandler(val plugin: JavaPlugin, var randomMessages: Boolean = false, var consoleLogging: Boolean, var prefix: String, var messages: MessagesConfig) {
 
     var task: BukkitTask? = null
     var isEnabled: Boolean = false
@@ -49,6 +49,7 @@ class CastHandler(val plugin: JavaPlugin, var randomMessages: Boolean, var conso
         task = plugin.server.scheduler.runTaskTimerAsynchronously(plugin, {
 
             val size = messages.messageList.size
+
             if (size == 0) return@runTaskTimerAsynchronously
 
             if (size > 1 && randomMessages) {

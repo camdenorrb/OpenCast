@@ -2,7 +2,6 @@ package me.camdenorrb.opencast.commands.sub
 
 import me.camdenorrb.opencast.OpenCast
 import me.camdenorrb.opencast.commands.SubCmd
-import me.camdenorrb.opencast.extensions.write
 import org.bukkit.ChatColor.DARK_GREEN
 import org.bukkit.command.CommandSender
 
@@ -13,11 +12,12 @@ import org.bukkit.command.CommandSender
 class ReloadCmd(val openCast: OpenCast) : SubCmd("reload") {
 
     override fun execute(sender: CommandSender, args: MutableList<String>): Boolean {
+
         openCast.castHandler.disable()
 
         openCast.reloadConfig()
 
-        openCast.messagesFile.write { openCast.gson.toJson(openCast.castHandler.messages, it) }
+        openCast.castHandler.messages.writeJsonTo(openCast.messagesFile)
 
         openCast.loadHandlers()
 
@@ -26,6 +26,7 @@ class ReloadCmd(val openCast: OpenCast) : SubCmd("reload") {
         sender.sendMessage("${DARK_GREEN}Reloaded the config!")
 
         return true
+
     }
 
 }

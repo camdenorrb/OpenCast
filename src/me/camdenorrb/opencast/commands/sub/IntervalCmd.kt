@@ -12,7 +12,9 @@ import org.bukkit.command.CommandSender
 class IntervalCmd(val openCast: OpenCast) : SubCmd("interval", 1, "$RED/Interval <Seconds>") {
 
     override fun execute(sender: CommandSender, args: MutableList<String>): Boolean {
+
         val delay: Long = try { args[0].toLong() } catch(e: Exception) { return false }
+
         if (delay < 0) return false
 
         openCast.castHandler.messages.delay = delay

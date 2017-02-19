@@ -3,14 +3,13 @@ package me.camdenorrb.opencast.commands
 import me.camdenorrb.opencast.store.SubCmdStore
 import org.bukkit.ChatColor.*
 import org.bukkit.command.Command
-import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
-import org.bukkit.command.TabCompleter
+import org.bukkit.command.TabExecutor
 
 /**
  * Created by camdenorrb on 12/18/16.
  */
-class BroadcastCmd(val cmdStore: SubCmdStore) : CommandExecutor, TabCompleter {
+class BroadcastCmd(val cmdStore: SubCmdStore) : TabExecutor {
 
     override fun onTabComplete(sender: CommandSender, cmd: Command, label: String, args: Array<out String>) = if (args.isEmpty()) commands else null
 
@@ -19,10 +18,9 @@ class BroadcastCmd(val cmdStore: SubCmdStore) : CommandExecutor, TabCompleter {
         if (args.isEmpty()) return { sender.sendMessage(help); true }()
 
 
-        val argsList = mutableListOf(*args)
+        val argsList = args.toMutableList()
 
-        val command = cmdStore.byName(argsList.removeAt(0))?: return { sender.sendMessage(help); true }()
-
+        val command = cmdStore.byName(argsList.removeAt(0)) ?: return { sender.sendMessage(help); true }()
 
         if (argsList.size < command.minArgs || !command.execute(sender, argsList)) command.usage?.let { sender.sendMessage(it) }
 

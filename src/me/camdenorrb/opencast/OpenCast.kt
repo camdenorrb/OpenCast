@@ -4,12 +4,11 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import me.camdenorrb.opencast.commands.BroadcastCmd
 import me.camdenorrb.opencast.commands.sub.*
+import me.camdenorrb.opencast.config.MessagesConfig
 import me.camdenorrb.opencast.extensions.format
 import me.camdenorrb.opencast.extensions.readJson
-import me.camdenorrb.opencast.extensions.write
 import me.camdenorrb.opencast.handlers.CastHandler
 import me.camdenorrb.opencast.store.SubCmdStore
-import me.camdenorrb.opencast.wrappers.Messages
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 import java.util.*
@@ -19,28 +18,15 @@ import java.util.*
  */
 
 val random = Random()
+val gson: Gson = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create()
 
 class OpenCast : JavaPlugin() {
 
     lateinit var castHandler: CastHandler
 
     val subCmdStore: SubCmdStore = SubCmdStore()
-    val messagesFile = File(dataFolder, "Messages.json")
-    val gson: Gson = GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create()
+    val messagesFile = File(dataFolder, "MessagesConfig.json")
 
-
-    companion object { lateinit var instance: OpenCast }
-
-
-    override fun onDisable() {
-
-        messagesFile.write { gson.toJson(castHandler.messages, it) }
-
-        castHandler.disable()
-        subCmdStore.disable()
-
-        castHandler.unload()
-    }
 
     override fun onEnable() {
         instance = this
@@ -51,26 +37,36 @@ class OpenCast : JavaPlugin() {
 
         loadHandlers()
 
+        getCommand("bc").executor = BroadcastCmd(subCmdStore)
 
-        val broadCastCmd: BroadcastCmd = BroadcastCmd(subCmdStore)
-
-        getCommand("bc").let {
-            it.executor = broadCastCmd
-            it.tabCompleter = broadCastCmd
-        }
     }
 
+	override fun onDisable() {
 
-    fun loadHandlers() {
+		castHandler.messages.writeJsonTo(messagesFile)
 
-        val readJson = messagesFile.readJson()
+		castHandler.disable()
+		subCmdStore.disable()
 
-        val messages: Messages = if (readJson.isEmpty()) Messages() else gson.fromJson(readJson, Messages::class.java)
+		castHandler.unload()
+	}
+
+
+	fun loadHandlers() {
+
+        val messages: MessagesConfig = messagesFile.readJson(MessagesConfig::class.java, { MessagesConfig().apply { writeJsonTo(messagesFile) } })
 
 
         castHandler = CastHandler(instance, config.getBoolean("randomMessage", false), config.getBoolean("consoleLogging", false), config.getString("prefix", "&c&lOpenCaster:&a ").format(), messages)
 
         castHandler.enable()
     }
+
+
+	companion object {
+
+		lateinit var instance: OpenCast
+
+	}
 
 }
