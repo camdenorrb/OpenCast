@@ -21,9 +21,6 @@ dependencies {
 }
 
 tasks {
-	compileKotlin {
-		kotlinOptions.freeCompilerArgs = listOf("-Xuse-experimental=kotlin.ExperimentalStdlibApi")
-	}
 	shadowJar {
 		relocate("org.jetbrains", "me.camdenorrb.opencast.libs.org.jetbrains")
 		relocate("org.intellij", "me.camdenorrb.opencast.libs.org.intellij")
