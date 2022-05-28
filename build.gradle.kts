@@ -6,7 +6,6 @@ plugins {
 group = "me.camdenorrb"
 version = "1.1.0"
 
-
 repositories {
 	mavenCentral()
 	maven("https://hub.spigotmc.org/nexus/content/repositories/public/") {
